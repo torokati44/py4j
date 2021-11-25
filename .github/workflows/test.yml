@@ -67,8 +67,8 @@ jobs:
           cd py4j-python
           flake8
 
-      - name: Run nosetests
+      - name: Run nose2
         run: |
           cd py4j-python
           # Java TLS tests are disabled until they can be fixed (refs #441)
-          nosetests -v --exclude='.*java_tls_test.*'
+          nose2 -v --exclude='.*java_tls_test.*'
