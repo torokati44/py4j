@@ -36,6 +36,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -201,7 +202,8 @@ public class ReflectionEngine {
 
 		for (Constructor<?> constructor : clazz.getConstructors()) {
 			if (constructor.getParameterTypes().length == length) {
-				methods.add(constructor);
+				if (constructor.trySetAccessible())
+					methods.add(constructor);
 			}
 		}
 
@@ -342,11 +344,32 @@ public class ReflectionEngine {
 	private List<Method> getMethodsByNameAndLength(Class<?> clazz, String name, int length) {
 		List<Method> methods = new ArrayList<Method>();
 
-		for (Method method : clazz.getMethods()) {
-			if (method.getName().equals(name) && method.getParameterTypes().length == length) {
-				methods.add(method);
+		while (true) {
+			for (Method method : clazz.getMethods()) {
+				if (method.getName().equals(name) && method.getParameterTypes().length == length) {
+					if (method.trySetAccessible()) {
+						methods.add(method);
+					}
+				}
 			}
+
+			for (Class intf : clazz.getInterfaces()) {
+				for (Method method : intf.getMethods()) {
+					if (method.getName().equals(name) && method.getParameterTypes().length == length) {
+						if (method.trySetAccessible()) {
+							methods.add(method);
+						}
+					}
+				}
+			}
+
+			if (clazz == Object.class) {
+				break;
+			}
+			clazz = clazz.getSuperclass();
 		}
+
+		Collections.reverse(methods);
 
 		return methods;
 	}
