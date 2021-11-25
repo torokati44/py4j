@@ -2,5 +2,6 @@ include README.rst
 include setup.py
 include py4j-python/LICENSE.txt
 include py4j-python/nose.cfg
+include py4j-python/nose2.cfg
 recursive-include py4j-python/doc *.*
 recursive-include py4j-python/py4j-java *.*
