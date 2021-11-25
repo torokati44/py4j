@@ -54,7 +54,6 @@ jobs:
       - name: Run gradle tests
         run: |
           cd py4j-java
-          ./gradlew check
           ./gradlew assemble
 
       # There is no combination of flake8 and pyflakes versions which
