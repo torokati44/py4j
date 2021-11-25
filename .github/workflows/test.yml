@@ -68,6 +68,8 @@ jobs:
           flake8
 
       - name: Run nose2
+        env:
+          JDK_JAVA_OPTIONS: "--illegal-access=deny"
         run: |
           cd py4j-python
           # Java TLS tests are disabled until they can be fixed (refs #441)
