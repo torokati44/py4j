@@ -254,9 +254,9 @@
         <exec executable="python" dir="${py4jpy.dir}" failonerror="true">
             <arg line="--version"/>
         </exec>
-        <exec executable="nosetests" dir="${py4jpy.dir}" failonerror="true">
+        <exec executable="nose2" dir="${py4jpy.dir}" failonerror="true">
             <arg line="-w src"/>
-            <arg line="-c nose.cfg"/>
+            <arg line="-c nose2.cfg"/>
         </exec>
     </target>
 
